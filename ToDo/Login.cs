@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UserModel;
 
 namespace ToDo
 {
@@ -31,6 +32,38 @@ namespace ToDo
             }
 
             signForm.Show();
+        }
+
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            DatabaseModel usMod = new DatabaseModel();
+
+            string userinput = UsernameInput.Text;
+            string passwordinput = PasswordInput.Text;
+
+            bool result = usMod.Login(userinput, passwordinput);
+
+            if (result == true)
+            {
+                MessageBox.Show("Signing in.");
+                Thread.Sleep(2000);
+
+                User.CurrentUser = new User
+                {
+                    Username = userinput,
+                    Password = passwordinput,
+                    AccountNumber = usMod.ReturnAccountNumber(userinput),
+                    DateOfBirth = usMod.ReturnDOB(userinput)
+                };
+
+                Landing landingForm = new Landing();
+                landingForm.Show();
+
+                this.Hide();
+            } else
+            {
+                MessageBox.Show("Account not found.");
+            }
         }
     }
 }

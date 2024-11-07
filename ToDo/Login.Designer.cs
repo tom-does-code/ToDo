@@ -32,7 +32,7 @@
             UsernameInput = new TextBox();
             label2 = new Label();
             label3 = new Label();
-            textBox1 = new TextBox();
+            PasswordInput = new TextBox();
             LoginButton = new Button();
             SignUp = new Button();
             SuspendLayout();
@@ -74,12 +74,12 @@
             label3.TabIndex = 4;
             label3.Text = "Password";
             // 
-            // textBox1
+            // PasswordInput
             // 
-            textBox1.Location = new Point(343, 281);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(152, 23);
-            textBox1.TabIndex = 3;
+            PasswordInput.Location = new Point(343, 281);
+            PasswordInput.Name = "PasswordInput";
+            PasswordInput.Size = new Size(152, 23);
+            PasswordInput.TabIndex = 3;
             // 
             // LoginButton
             // 
@@ -91,6 +91,7 @@
             LoginButton.TabIndex = 5;
             LoginButton.Text = "LOGIN";
             LoginButton.UseVisualStyleBackColor = true;
+            LoginButton.Click += LoginButton_Click;
             // 
             // SignUp
             // 
@@ -113,7 +114,7 @@
             Controls.Add(SignUp);
             Controls.Add(LoginButton);
             Controls.Add(label3);
-            Controls.Add(textBox1);
+            Controls.Add(PasswordInput);
             Controls.Add(label2);
             Controls.Add(UsernameInput);
             Controls.Add(label1);
@@ -129,7 +130,7 @@
         private TextBox UsernameInput;
         private Label label2;
         private Label label3;
-        private TextBox textBox1;
+        private TextBox PasswordInput;
         private Button LoginButton;
         private Button SignUp;
     }

@@ -3,17 +3,23 @@ using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using Encryption;
+using Microsoft.IdentityModel.Tokens;
 
 namespace UserModel
 {
     public class User
     {
-        public string? Title { get; set; }
-        public string? Description { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        public int? AccountNumber { get; set; }
+        public string? DateOfBirth { get; set; }
+        public static User? CurrentUser { get; set; }
     }
 
     public class DatabaseModel
     {
+
+
         private string connectionString = "Server=DESKTOP-G4EE8OT;Database=Nova;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public void RegisterUser(string username, string password, int accountNumber, string dob)
@@ -57,6 +63,41 @@ namespace UserModel
             }
         }
 
+        public bool Login(string username, string password)
+        {
+            if (username.IsNullOrEmpty() || password.IsNullOrEmpty())
+            {
+                return false;
+            }
+
+            string encryptedPassword = EncryptSHA(password, "LxXgAZdO4sxwPo6rPkHsYwv1nl+2iUC2IgTIz9KCisI=\r\n");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Password FROM dbo.UserLogs WHERE Username = @Username";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    string? dbPassword = (string?)command.ExecuteScalar();
+
+                    if (dbPassword == null)
+                    {
+                        return false;
+                    }
+
+                    if (dbPassword == encryptedPassword)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public bool CheckIfAccountNumberExist(int accountNumber)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -71,6 +112,75 @@ namespace UserModel
                     int userCount = (int)command.ExecuteScalar();
 
                     return userCount > 0;
+                }
+            }
+        }
+
+        public int ReturnAccountNumber(string username)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT AccountNumber FROM dbo.UserLogs WHERE Username = @Username";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    int accountNumber = (int)command.ExecuteScalar();
+
+                    return accountNumber;
+                }
+            }
+        }
+
+        public string ReturnDOB(string username)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT DOB FROM dbo.UserLogs WHERE Username = @Username";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    string dob = (string)command.ExecuteScalar();
+
+                    return dob;
+                }
+            }
+        }
+
+        public void CreateTaskInput(string taskTitle, string dueDate, string priority)
+        {
+            if (string.IsNullOrEmpty(taskTitle) || string.IsNullOrEmpty(dueDate)) {
+                return;
+            }
+
+            if (User.CurrentUser == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(User.CurrentUser.Username))
+            {
+                return;
+            }
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "INSERT INTO dbo.ListData (ListTitle, UserId, DueDate, Priority) VALUES (@ListTitle, @UserId, @DueDate, @Priority)";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ListTitle", taskTitle);
+                    command.Parameters.AddWithValue("@UserId", ReturnAccountNumber(User.CurrentUser.Username));
+                    command.Parameters.AddWithValue("@DueDate", dueDate);
+                    command.Parameters.AddWithValue("@Priority", priority);
+
+                    command.ExecuteNonQuery();
                 }
             }
         }

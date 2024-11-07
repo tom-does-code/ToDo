@@ -28,6 +28,16 @@ namespace ToDo
 
             string passwordInput = PasswordInput.Text;
 
+            DateTime dtInput = DateOfBirthInput.Value;
+            DateTime minDate = new DateTime(2018, 1, 1);
+
+            if (dtInput > minDate)
+            {
+                MessageBox.Show("Date of birth must be after 2018.");
+                return;
+            }
+
+
             string DOB = DateOfBirthInput.Value.ToString();
 
             if (userInput != "" && passwordInput != "")

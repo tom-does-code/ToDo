@@ -100,7 +100,7 @@
             DateOfBirthInput.Name = "DateOfBirthInput";
             DateOfBirthInput.Size = new Size(200, 23);
             DateOfBirthInput.TabIndex = 12;
-            DateOfBirthInput.Value = new DateTime(2024, 11, 4, 5, 49, 31, 0);
+            DateOfBirthInput.Value = new DateTime(2024, 11, 4, 0, 0, 0, 0);
             // 
             // SignUpConf
             // 
