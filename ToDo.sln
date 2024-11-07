@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo", "ToDo\ToDo.csproj", "{DA2CD56C-B66C-4417-962F-55C0BC2164CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserModel", "UserModel\UserModel.csproj", "{F4E43521-9BF8-473C-BA7D-1B89E249128A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserModel", "UserModel\UserModel.csproj", "{F4E43521-9BF8-473C-BA7D-1B89E249128A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\Encryption.csproj", "{FC4C8ECA-3373-400F-BCFF-9B00A2D98815}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F4E43521-9BF8-473C-BA7D-1B89E249128A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4E43521-9BF8-473C-BA7D-1B89E249128A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4E43521-9BF8-473C-BA7D-1B89E249128A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC4C8ECA-3373-400F-BCFF-9B00A2D98815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4C8ECA-3373-400F-BCFF-9B00A2D98815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4C8ECA-3373-400F-BCFF-9B00A2D98815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4C8ECA-3373-400F-BCFF-9B00A2D98815}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
