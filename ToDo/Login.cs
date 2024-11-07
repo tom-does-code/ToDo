@@ -16,6 +16,8 @@ namespace ToDo
         public Login()
         {
             InitializeComponent();
+
+
         }
 
         private void SignUp_Click(object sender, EventArgs e)
@@ -45,8 +47,7 @@ namespace ToDo
 
             if (result == true)
             {
-                MessageBox.Show("Signing in.");
-                Thread.Sleep(2000);
+                Thread.Sleep(250);
 
                 User.CurrentUser = new User
                 {

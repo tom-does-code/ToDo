@@ -67,7 +67,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.DarkGray;
+            panel1.BackColor = Color.LightGray;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(textBox1);
             panel1.Location = new Point(18, 154);
@@ -77,7 +77,7 @@
             // 
             // textBox1
             // 
-            textBox1.BackColor = Color.DarkGray;
+            textBox1.BackColor = Color.LightGray;
             textBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
             textBox1.Location = new Point(24, 4);
@@ -141,7 +141,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.LightGray;
+            BackColor = Color.LightBlue;
             ClientSize = new Size(1039, 558);
             Controls.Add(label5);
             Controls.Add(button1);
