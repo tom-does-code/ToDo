@@ -61,9 +61,6 @@ namespace ToDo
                     {
                         dbModel.RegisterUser(userInput, passwordInput, accountGenNumb, DOB);
                         MessageBox.Show("User registered successfully.");
-                    } else
-                    {
-                        MessageBox.Show($"Account number {accountGenNumb} already exists.");
                     }
                 } else
                 {

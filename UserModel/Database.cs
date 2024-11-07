@@ -152,7 +152,7 @@ namespace UserModel
             }
         }
 
-        public void CreateTaskInput(string taskTitle, string dueDate, string priority)
+        public void CreateTaskInput(string taskTitle, string dueDate, string priority, int taskId)
         {
             if (string.IsNullOrEmpty(taskTitle) || string.IsNullOrEmpty(dueDate)) {
                 return;
@@ -171,7 +171,7 @@ namespace UserModel
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO dbo.ListData (ListTitle, UserId, DueDate, Priority) VALUES (@ListTitle, @UserId, @DueDate, @Priority)";
+                string query = "INSERT INTO dbo.ListData (ListTitle, UserId, DueDate, Priority, TaskId, Completed) VALUES (@ListTitle, @UserId, @DueDate, @Priority, @TaskId, 0)";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -179,8 +179,44 @@ namespace UserModel
                     command.Parameters.AddWithValue("@UserId", ReturnAccountNumber(User.CurrentUser.Username));
                     command.Parameters.AddWithValue("@DueDate", dueDate);
                     command.Parameters.AddWithValue("@Priority", priority);
+                    command.Parameters.AddWithValue("@TaskId", taskId);
 
                     command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void MarkTaskAsComplete(int taskId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "UPDATE dbo.ListData SET Completed = 1 WHERE TaskId = @TaskId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TaskId", taskId);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool CheckIfTaskIdExist(int taskId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT COUNT(*) FROM dbo.ListData WHERE TaskId = @TaskId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TaskId", taskId);
+
+                    int taskCount = (int)command.ExecuteScalar();
+
+                    return taskCount > 0;
                 }
             }
         }

@@ -30,15 +30,34 @@ namespace ToDo
 
             string? selectedPriority = PriorityInput?.SelectedItem?.ToString();
 
+            if (selectedPriority == null)
+            {
+                MessageBox.Show("Please select a priority.");
+                return;
+            }
+
             DatabaseModel dbMod = new DatabaseModel();
+
+            Random random = new Random();
 
             string taskText = TaskInput.Text;
             string dueDate = DueInput.Value.ToString("yyyy-MM-dd");
 
-            dbMod.CreateTaskInput(taskText, dueDate, selectedPriority?.ToLower());
-            MessageBox.Show("Created.");
+                int TaskId = (int)random.Next(10000000, 100000000);
+                bool success = false;
+                int tries = 0;
 
-            TaskSubmitted?.Invoke(this, EventArgs.Empty);
+                while (success == false && tries < 10)
+                {
+
+                    success = !dbMod.CheckIfTaskIdExist(TaskId);
+                    tries++;
+
+                    TaskId = (int)random.Next(10000000, 100000000);
+                }
+
+                dbMod.CreateTaskInput(taskText, dueDate, selectedPriority, TaskId);
+            MessageBox.Show("Created.");
 
             Landing.Instance?.Close();
 
