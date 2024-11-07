@@ -191,11 +191,12 @@ namespace UserModel
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "UPDATE dbo.ListData SET Completed = 1 WHERE TaskId = @TaskId";
+                string query = "UPDATE dbo.ListData SET Completed = 1, CompletedOn = @CompletedOn WHERE TaskId = @TaskId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@TaskId", taskId);
+                    command.Parameters.AddWithValue("@CompletedOn", DateTime.Now.ToString("yyyy-MM-dd"));
 
                     command.ExecuteNonQuery();
                 }

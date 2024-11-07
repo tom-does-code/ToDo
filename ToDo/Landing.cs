@@ -52,7 +52,18 @@ namespace ToDo
 
             this.Controls.Add(taskPanel);
 
-            string query = "SELECT ListTitle, DueDate, Priority, TaskId, Completed FROM dbo.ListData WHERE UserId = @UserId";
+            FlowLayoutPanel completedPanel = new FlowLayoutPanel
+            {
+                Location = new Point(830, 275),
+                Size = new Size(300, 300),
+                AutoScroll = true,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false
+            };
+
+            this.Controls.Add(completedPanel);
+
+            string query = "SELECT ListTitle, DueDate, Priority, TaskId, Completed, CompletedOn FROM dbo.ListData WHERE UserId = @UserId";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -65,13 +76,10 @@ namespace ToDo
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         taskPanel.Controls.Clear();
+                        completedPanel.Controls.Clear();
 
                         while (reader.Read())
-                        {
-                            if (Convert.ToInt32(reader["Completed"]) == 1)
-                            {
-                                continue;
-                            }
+                        { 
 
                             int taskId = Convert.ToInt32(reader["TaskId"]);
                             Color backColor = Color.FromArgb(255, 255, 255);
@@ -113,26 +121,36 @@ namespace ToDo
                                 TabIndex = 0
                             };
 
-
-                            Button completeButton = new Button
+                            if (Convert.ToInt32(reader["Completed"]) == 1)
                             {
-                                Text = "Complete",
-                                AutoSize = true,
-                                Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0),
-                                ForeColor = Color.White,
-                                BackColor = Color.MediumSeaGreen,
-                                Location = new Point(0, 0),
-                                Name = "completeButton",
-                                Size = new Size(150, 30),
-                                TabIndex = 0,
-                                
-                            };
+                                dueLabel.Text = "Completed On: " + Convert.ToDateTime(reader["CompletedOn"]).ToString("yyyy-MM-dd");
 
-                            completeButton.Click += (s, ev) => CompleteButton_Click(sender: completeButton, e: ev, taskLabel, dueLabel, completeButton, taskId);
+                                completedPanel.Controls.Add(taskLabel);
+                                completedPanel.Controls.Add(dueLabel);
 
-                            taskPanel.Controls.Add(taskLabel);
-                            taskPanel.Controls.Add(dueLabel);
-                            taskPanel.Controls.Add(completeButton);
+                                continue;
+                            }
+                            else
+                            {
+                                Button completeButton = new Button
+                                {
+                                    Text = "Complete",
+                                    AutoSize = true,
+                                    Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0),
+                                    ForeColor = Color.White,
+                                    BackColor = Color.MediumSeaGreen,
+                                    Location = new Point(0, 0),
+                                    Name = "completeButton",
+                                    Size = new Size(150, 30),
+                                    TabIndex = 0,
+                                };
+
+                                taskPanel.Controls.Add(taskLabel);
+                                taskPanel.Controls.Add(dueLabel);
+                                taskPanel.Controls.Add(completeButton);
+
+                                completeButton.Click += (s, ev) => CompleteButton_Click(sender: completeButton, e: ev, taskLabel, dueLabel, completeButton, taskId);
+                            }
                         }
                     }
                 }
@@ -149,6 +167,11 @@ namespace ToDo
             DatabaseModel dbMod = new DatabaseModel();
 
             dbMod.MarkTaskAsComplete(TaskId);
+
+            Landing landing = new Landing();
+
+            landing.Show();
+            this.Hide();
         }
 
         public void InitRefresh()

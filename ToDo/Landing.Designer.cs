@@ -35,6 +35,7 @@
             label3 = new Label();
             label4 = new Label();
             button1 = new Button();
+            label5 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -123,12 +124,26 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click_1;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.Transparent;
+            label5.FlatStyle = FlatStyle.Flat;
+            label5.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Black;
+            label5.Location = new Point(850, 222);
+            label5.Name = "label5";
+            label5.Size = new Size(177, 30);
+            label5.TabIndex = 6;
+            label5.Text = "Completed Tasks";
+            // 
             // Landing
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
             ClientSize = new Size(1039, 558);
+            Controls.Add(label5);
             Controls.Add(button1);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -154,5 +169,6 @@
         private Label label3;
         private Label label4;
         private Button button1;
+        private Label label5;
     }
 }
