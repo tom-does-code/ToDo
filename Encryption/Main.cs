@@ -18,7 +18,7 @@ namespace Encryption
             using (Aes aes = Aes.Create())
             {
                 byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-                Array.Resize(ref keyBytes, 32); // Resize to 256 bits (32 bytes)
+                Array.Resize(ref keyBytes, 32);
                 aes.Key = keyBytes;
                 aes.IV = iv;
 
