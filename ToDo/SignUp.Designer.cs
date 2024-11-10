@@ -140,7 +140,7 @@
             Controls.Add(UsernameInput);
             Controls.Add(label1);
             Name = "SignUp";
-            Text = "Form2";
+            Text = "Sign Up";
             ResumeLayout(false);
             PerformLayout();
         }

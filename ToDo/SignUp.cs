@@ -61,6 +61,8 @@ namespace ToDo
                     {
                         dbModel.RegisterUser(userInput, passwordInput, accountGenNumb, DOB);
                         MessageBox.Show("User registered successfully.");
+
+                        this.Hide();
                     }
                 } else
                 {
